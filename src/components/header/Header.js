@@ -3,6 +3,7 @@ import Logo from './../../assets/logow.png'
 import './header.scss';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/utils'
+import { connect } from 'react-redux'
 
 
 const Header = (props) => {
@@ -18,6 +19,11 @@ const Header = (props) => {
                 <div className="callToActions">
                     {currentUser && (
                         <ul>
+                            <li>
+                                <Link to="/dashboard">
+                                    My Profile
+                            </Link>
+                            </li>
                             <li>
                                 <span onClick={() => auth.signOut()}>
                                     Logout
@@ -50,4 +56,7 @@ Header.defaultProps = {
     currentUser: null
 };
 
-export default Header;
+const mapStateToProps = ({ user }) => ({
+    currentUser: user.currentUser
+})
+export default connect(mapStateToProps, null)(Header);

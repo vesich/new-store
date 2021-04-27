@@ -11,7 +11,8 @@ import HomepageLayout from './layouts/HomepageLayout'
 
 import Homepage from './components/pages/home/Home';
 import Register from './components/pages/registration/Register';
-import Login from './components/pages/Login/Login'
+import Login from './components/pages/Login/Login';
+import Recovery from './components/pages/Recovery/Recovery';
 
 
 const initialState = {
@@ -74,6 +75,11 @@ class App extends React.Component {
                 <Login />
               </MainLayout>
             )} />
+          <Route path='/recovery' render={() => (
+            <MainLayout>
+              <Recovery />
+            </MainLayout>
+          )} />
         </Switch>
       </div>
     );

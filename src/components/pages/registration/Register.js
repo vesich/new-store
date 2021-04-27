@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import Signup from '../../Signup/Signup';
 
 import './register.scss'
 
 export class Register extends Component {
     render() {
         return (
-            <div>
-                <h1>REGISTER PAGE</h1>
-            </div>
+            <Signup></Signup>
         )
     }
 }

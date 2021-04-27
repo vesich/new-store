@@ -1,6 +1,6 @@
 import './default.scss';
 import React, { useEffect } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { auth, handleUserProfile } from './firebase/utils'
 import { setCurrentUser } from './redux/user/user.actions'
 import { connect } from 'react-redux'
@@ -55,13 +55,13 @@ const App = props => {
             <Homepage />
           </HomepageLayout>
         )} />
-        <Route path='/register' render={() => currentUser ? <Redirect to='/' /> : (
+        <Route path='/register' render={() => (
           <MainLayout>
             <Register />
           </MainLayout>
         )} />
         <Route path='/login'
-          render={() => currentUser ? <Redirect to='/' /> : (
+          render={() => (
             <MainLayout>
               <Login />
             </MainLayout>
@@ -71,12 +71,12 @@ const App = props => {
             <Recovery />
           </MainLayout>
         )} />
-       
+
         <Route path='/dashboard' render={() => (
-           <WithAuth>
-          <MainLayout>
-            <Dashboard />
-          </MainLayout>
+          <WithAuth>
+            <MainLayout>
+              <Dashboard />
+            </MainLayout>
           </WithAuth>
         )} />
       </Switch>

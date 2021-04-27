@@ -1,20 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { signUpUser } from '../../redux/user/user.actions'
 import './signup.scss'
 import { withRouter } from 'react-router-dom'
-import { auth, handleUserProfile } from '../../firebase/utils'
+
 
 import Forminput from '../forms/Forminput/Forminput';
 import Button from '../forms/Button/Button';
 import AuthWrapper from '../AuthWrapper/AuthWrapper';
 
+const mapState = ({ user }) => ({
+    signUpSuccess: user.signUpSuccess,
+    signUpError: user.signUpError,
+});
 
 const Signup = (props) => {
-
+    const { signUpSuccess, signUpError } = useSelector(mapState)
+    const dispatch = useDispatch()
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState([]);
+
+    useEffect(() => {
+        if (signUpSuccess) {
+            reset();
+            props.history.push('/')
+        }
+
+    }, [signUpSuccess])
+
+    useEffect(() => {
+        if (Array.isArray(signUpError) && signUpError.length > 0) {
+            setErrors(signUpError);
+        }
+    }, [signUpError])
 
     const reset = () => {
         setDisplayName('');
@@ -25,24 +47,15 @@ const Signup = (props) => {
     }
 
 
-    const handleFormSubmit = async event => {
+    const handleFormSubmit = event => {
         event.preventDefault();
+        dispatch(signUpUser({
+            displayName,
+            email,
+            password,
+            confirmPassword
+        }))
 
-        if (password !== confirmPassword) {
-            const err = ['Passwords don\'t match!']
-            setErrors(err)
-            return;
-        }
-
-        try {
-            const { user } = await auth.createUserWithEmailAndPassword(email, password);
-            await handleUserProfile(user, { displayName });
-            reset();
-            props.history.push('/');
-
-        } catch (err) {
-            // console.log(err);
-        }
     }
 
 

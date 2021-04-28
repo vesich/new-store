@@ -1,6 +1,6 @@
 import React from 'react';
-import ShopMen from '../../assets/shopMens.jpg';
-import ShopWomen from '../../assets/shopWomens.jpg';
+import ShopMen from '../../assets/mancho.jpg';
+import ShopWomen from '../../assets/sophka.jpg';
 
 import './directory.scss'
 

@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer className='footer'>
             <div className="wrap">
-                baiVesan 2021
+            &copy; Veselin Georgiev 2021
             </div>
         </footer>
     )

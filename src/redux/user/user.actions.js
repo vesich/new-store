@@ -1,9 +1,13 @@
 import userTypes from './user.types'
-import { auth, handleUserProfile } from '../../firebase/utils'
+import { auth, handleUserProfile, GoogleProvider } from '../../firebase/utils'
 
 export const setCurrentUser = user => ({
     type: userTypes.SET_CURRENT_USER,
     payload: user
+})
+
+export const resetAllAuthForms = () => ({
+    type: userTypes.RESET_AUTH_FORMS
 })
 
 export const signInUser = ({ email, password }) => async dispatch => {
@@ -43,3 +47,49 @@ export const signUpUser = ({ displayName, email, password, confirmPassword }) =>
         // console.log(err);
     }
 }
+
+export const resetPassword = ({ email }) => async dispatch => {
+    // when deploying need to insert the actual url of the login page
+    const config = {
+        url: 'http://localhost:3000/login'
+    }
+
+    try {
+
+        await auth.sendPasswordResetEmail(email, config)
+            .then(() => {
+                dispatch({
+                    type: userTypes.RESET_PASSWORD_SUCCESS,
+                    payload: true
+                })
+                //    props.history.push('/login');
+            })
+            .catch(() => {
+                const err = ['Email not found, please try again']
+                dispatch({
+                    type: userTypes.RESET_PASSWORD_ERROR,
+                    payload: err
+                })
+                //    setErrors(err)
+            })
+
+    } catch (err) {
+        // console.log(err);
+    }
+}
+
+export const signInWithGoogle = () => async dispatch => {
+    try {
+        await auth.signInWithPopup(GoogleProvider)
+            .then(() => {
+                dispatch({
+                    type: userTypes.SIGN_IN_SUCCESS,
+                    payload: true
+                })
+            })
+    } catch (err) {
+        // console.log(err);
+    }
+
+
+};

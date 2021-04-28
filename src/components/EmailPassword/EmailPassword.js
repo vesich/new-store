@@ -1,39 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import './emailpassword.scss';
 import { withRouter } from 'react-router-dom'
+import { resetPassword, resetAllAuthForms } from '../../redux/user/user.actions'
 
 import AuthWrapper from '../AuthWrapper/AuthWrapper';
 import Forminput from '../forms/Forminput/Forminput';
 import Button from '../forms/Button/Button';
 
-import { auth } from '../../firebase/utils'
+const mapState = ({ user }) => ({
+    resetPasswordSuccess: user.resetPasswordSuccess,
+    resetPasswordError: user.resetPasswordError
+});
 
 const EmailPassword = (props) => {
-
+    const { resetPasswordSuccess, resetPasswordError } = useSelector(mapState);
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [errors, setErrors] = useState([]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            // when deploying need to insert the actual url of the login page
-            const config = {
-                url: 'http://localhost:3000/login'
-            }
-
-            await auth.sendPasswordResetEmail(email, config)
-                .then(() => {
-                   props.history.push('/login');
-                })
-                .catch(() => {
-                    const err = ['Email not found, please try again']
-                   setErrors(err)
-                })
-
-        } catch (err) {
-            // console.log(err);
+    useEffect(() => {
+        if (resetPasswordSuccess) {
+            dispatch(resetAllAuthForms())
+            props.history.push('/');
         }
+    }, [resetPasswordSuccess])
+
+    useEffect(() => {
+        if (Array.isArray(resetPasswordError) && resetPasswordError.length > 0) {
+            setErrors(resetPasswordError)
+        }
+    }, [resetPasswordError])
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        dispatch(resetPassword({ email }))
+
     }
 
 

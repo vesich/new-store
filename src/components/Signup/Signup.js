@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { signUpUser, resetAllAuthForms } from '../../redux/user/user.actions'
+import { signUpUserStart } from '../../redux/user/user.actions'
 import './signup.scss'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 
 import Forminput from '../forms/Forminput/Forminput';
@@ -11,13 +11,14 @@ import Button from '../forms/Button/Button';
 import AuthWrapper from '../AuthWrapper/AuthWrapper';
 
 const mapState = ({ user }) => ({
-    signUpSuccess: user.signUpSuccess,
-    signUpError: user.signUpError,
+    currentUser: user.currentUser,
+    userErrors: user.userErrors,
 });
 
 const Signup = (props) => {
-    const { signUpSuccess, signUpError } = useSelector(mapState)
     const dispatch = useDispatch()
+    const history = useHistory();
+    const { currentUser, userErrors } = useSelector(mapState)
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -25,19 +26,18 @@ const Signup = (props) => {
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        if (signUpSuccess) {
+        if (currentUser) {
             reset();
-            dispatch(resetAllAuthForms())
-            props.history.push('/')
+            history.push('/')
         }
 
-    }, [signUpSuccess])
+    }, [currentUser])
 
     useEffect(() => {
-        if (Array.isArray(signUpError) && signUpError.length > 0) {
-            setErrors(signUpError);
+        if (Array.isArray(userErrors) && userErrors.length > 0) {
+            setErrors(userErrors);
         }
-    }, [signUpError])
+    }, [userErrors])
 
     const reset = () => {
         setDisplayName('');
@@ -50,7 +50,7 @@ const Signup = (props) => {
 
     const handleFormSubmit = event => {
         event.preventDefault();
-        dispatch(signUpUser({
+        dispatch(signUpUserStart({
             displayName,
             email,
             password,
@@ -119,4 +119,4 @@ const Signup = (props) => {
     )
 }
 
-export default withRouter(Signup);
+export default Signup;

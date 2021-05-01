@@ -140,7 +140,7 @@ const Admin = props => {
                         <tr>
                             <td>
                                 <table className="results" border="0" cellPadding="10" cellSpacing="0">
-                                    <tbody>
+                                    {/* <tbody>
                                         {(Array.isArray(data) && data.length > 0) && data.map((product, index) => {
                                             const {
                                                 productName,
@@ -168,7 +168,7 @@ const Admin = props => {
                                                 </tr>
                                             )
                                         })}
-                                    </tbody>
+                                    </tbody> */}
                                 </table>
                             </td>
                         </tr>
@@ -182,11 +182,11 @@ const Admin = props => {
                                 <table border="0" cellPadding="10" cellSpacing="0">
                                     <tbody>
                                         <tr>
-                                            <td>
+                                            {/* <td>
                                                 {!isLastPage && (
                                                     <LoadMore {...configLoadMore} />
                                                 )}
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     </tbody>
                                 </table>

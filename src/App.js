@@ -20,6 +20,7 @@ import DashboardLayout from './layouts/DashboardLayout'
 //pages
 
 import Homepage from './components/pages/home/Home';
+import Search from './components/pages/Search/Search';
 import Register from './components/pages/registration/Register';
 import Login from './components/pages/Login/Login';
 import Dashboard from './components/pages/Dashboard/Dashboard'
@@ -44,6 +45,11 @@ const App = props => {
           <HomepageLayout>
             <Homepage />
           </HomepageLayout>
+        )} />
+        <Route path='/search' render={() => (
+          <MainLayout>
+            <Search />
+          </MainLayout>
         )} />
         <Route path='/register' render={() => (
           <MainLayout>

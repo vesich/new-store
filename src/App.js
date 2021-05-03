@@ -26,6 +26,7 @@ import Login from './components/pages/Login/Login';
 import Dashboard from './components/pages/Dashboard/Dashboard'
 import Recovery from './components/pages/Recovery/Recovery';
 import Admin from './components/pages/admin/Admin'
+import ProductDetails from './components/pages/ProductDetails/ProductDetails'
 
 
 const App = props => {
@@ -54,6 +55,11 @@ const App = props => {
         <Route path='/search/:filterType' render={() => (
           <MainLayout>
             <Search />
+          </MainLayout>
+        )} />
+         <Route path='/product/:productId' render={() => (
+          <MainLayout>
+            <ProductDetails />
           </MainLayout>
         )} />
         <Route path='/register' render={() => (

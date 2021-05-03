@@ -19,3 +19,13 @@ export const deleteProductStart = productId => ({
     type: productsTypes.DELETE_PRODUCT_START,
     payload: productId
 })
+
+export const fetchProductStart = productId => ({
+    type: productsTypes.FETCH_PRODUCT_START,
+    payload: productId
+})
+
+export const setProduct = product => ({
+    type: productsTypes.SET_PRODUCT,
+    payload: product
+})

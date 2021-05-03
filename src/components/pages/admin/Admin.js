@@ -1,13 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { addProductStart, fetchProductsStart, deleteProductStart } from '../../../redux/Products/products.actions'
+import { addProductStart, fetchProductsStart, deleteProductStart, setProduct } from '../../../redux/Products/products.actions'
 
 import Modal from '../../Modal/Modal';
 import FormInput from '../../forms/Forminput/Forminput';
 import FormSelect from '../../forms/FormSelect/FormSelect';
 import Button from '../../forms/Button/Button';
 import LoadMore from '../../LoadMore/LoadMore'
+import CKEditor from 'ckeditor4-react'
 
 import './admin.scss';
 
@@ -23,6 +24,7 @@ const Admin = props => {
     const [productName, setProductName] = useState('');
     const [productThumbnail, setProductThumbnail] = useState('');
     const [productPrice, setProductPrice] = useState(0);
+    const [productDesc, setProductDesc] = useState('');
 
     const { data, queryDoc, isLastPage } = products
 
@@ -45,7 +47,8 @@ const Admin = props => {
         setProductCategory('mens');
         setProductName('');
         setProductThumbnail('');
-        setProductPrice(0)
+        setProductPrice(0);
+        setProductDesc('')
     }
 
     const handleSubmit = e => {
@@ -55,7 +58,8 @@ const Admin = props => {
                 productCategory,
                 productName,
                 productThumbnail,
-                productPrice
+                productPrice,
+                productDesc
             })
         )
         resetForm();
@@ -130,8 +134,10 @@ const Admin = props => {
                             value={productPrice}
                             handleChange={e => setProductPrice(e.target.value)}
                         />
-
-
+                        <CKEditor
+                            onChange={event => setProductDesc(event.editor.getData())}
+                        ></CKEditor>
+                        <br />
                         <Button type="submit">
                             Add product
             </Button>

@@ -7,6 +7,7 @@ import Modal from '../../Modal/Modal';
 import FormInput from '../../forms/Forminput/Forminput';
 import FormSelect from '../../forms/FormSelect/FormSelect';
 import Button from '../../forms/Button/Button';
+import LoadMore from '../../LoadMore/LoadMore'
 
 import './admin.scss';
 
@@ -22,6 +23,8 @@ const Admin = props => {
     const [productName, setProductName] = useState('');
     const [productThumbnail, setProductThumbnail] = useState('');
     const [productPrice, setProductPrice] = useState(0);
+
+    const { data, queryDoc, isLastPage } = products
 
     useEffect(() => {
         dispatch(
@@ -58,7 +61,18 @@ const Admin = props => {
         resetForm();
     };
 
+    const handleLoadMore = () => {
+        dispatch(
+            fetchProductsStart({
+                startAfterDoc: queryDoc,
+                persistProducts: data
+            })
+        );
+    }
 
+    const configLoadMore = {
+        onLoadMoreEvent: handleLoadMore
+    }
 
     return (
         <div className="admin">
@@ -134,13 +148,13 @@ const Admin = props => {
                             <th>
                                 <h1>
                                     Manage Products
-                </h1>
+                                </h1>
                             </th>
                         </tr>
                         <tr>
                             <td>
                                 <table className="results" border="0" cellPadding="10" cellSpacing="0">
-                                    {/* <tbody>
+                                    <tbody>
                                         {(Array.isArray(data) && data.length > 0) && data.map((product, index) => {
                                             const {
                                                 productName,
@@ -168,7 +182,7 @@ const Admin = props => {
                                                 </tr>
                                             )
                                         })}
-                                    </tbody> */}
+                                    </tbody>
                                 </table>
                             </td>
                         </tr>
@@ -182,11 +196,11 @@ const Admin = props => {
                                 <table border="0" cellPadding="10" cellSpacing="0">
                                     <tbody>
                                         <tr>
-                                            {/* <td>
+                                            <td>
                                                 {!isLastPage && (
                                                     <LoadMore {...configLoadMore} />
                                                 )}
-                                            </td> */}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

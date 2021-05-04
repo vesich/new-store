@@ -15,11 +15,12 @@ const mapState = ({ productsData }) => ({
 const ProductResults = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
     const { filterType } = useParams();
     const { products } = useSelector(mapState);
 
     const { data, queryDoc, isLastPage } = products;
-    const history = useHistory();
+
 
     useEffect(() => {
         dispatch(

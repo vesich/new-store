@@ -27,6 +27,7 @@ import Dashboard from './components/pages/Dashboard/Dashboard'
 import Recovery from './components/pages/Recovery/Recovery';
 import Admin from './components/pages/admin/Admin'
 import ProductDetails from './components/pages/ProductDetails/ProductDetails'
+import Cart from './components/pages/Cart/Cart';
 
 
 const App = props => {
@@ -60,6 +61,11 @@ const App = props => {
          <Route path='/product/:productId' render={() => (
           <MainLayout>
             <ProductDetails />
+          </MainLayout>
+        )} />
+         <Route path='/cart' render={() => (
+          <MainLayout>
+            <Cart />
           </MainLayout>
         )} />
         <Route path='/register' render={() => (

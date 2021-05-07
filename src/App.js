@@ -19,6 +19,7 @@ import DashboardLayout from './layouts/DashboardLayout'
 
 //pages
 
+import Payment from './components/pages/Payment/Payment'
 import Homepage from './components/pages/home/Home';
 import Search from './components/pages/Search/Search';
 import Register from './components/pages/registration/Register';
@@ -58,16 +59,25 @@ const App = props => {
             <Search />
           </MainLayout>
         )} />
-         <Route path='/product/:productId' render={() => (
+        <Route path='/product/:productId' render={() => (
           <MainLayout>
             <ProductDetails />
           </MainLayout>
         )} />
-         <Route path='/cart' render={() => (
+        <Route path='/cart' render={() => (
           <MainLayout>
             <Cart />
           </MainLayout>
         )} />
+
+        <Route path='/payment' render={() => (
+          <WithAuth>
+            <MainLayout>
+              <Payment />
+            </MainLayout>
+          </WithAuth>
+        )} />
+
         <Route path='/register' render={() => (
           <MainLayout>
             <Register />

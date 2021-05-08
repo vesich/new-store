@@ -29,6 +29,7 @@ import Recovery from './components/pages/Recovery/Recovery';
 import Admin from './components/pages/admin/Admin'
 import ProductDetails from './components/pages/ProductDetails/ProductDetails'
 import Cart from './components/pages/Cart/Cart';
+import Order from './components/pages/Order/Order'
 
 
 const App = props => {
@@ -102,6 +103,13 @@ const App = props => {
             </DashboardLayout>
           </WithAuth>
         )} />
+        <Route path='/order/:orderId' render={() => (
+          <WithAuth>
+            <DashboardLayout>
+              <Order />
+            </DashboardLayout>
+          </WithAuth>
+        )}/>
         <Route path='/admin' render={() => (
           <WithAdminAuth>
             <AdminLayout>

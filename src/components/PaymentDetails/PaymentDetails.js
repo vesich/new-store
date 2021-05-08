@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import { createStructuredSelector } from 'reselect'
 import { CountryDropdown } from 'react-country-region-selector'
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom'
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
+
+
 import Forminput from '../forms/Forminput/Forminput'
 import Button from '../forms/Button/Button';
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { apiInstance } from '../../Utils/Utils'
-import './paymentdetails.scss'
-import { useHistory } from 'react-router-dom'
-import { selectCartTotal, selectCartItemsCount } from '../../redux/Cart/cart.selectors'
+import { selectCartTotal, selectCartItemsCount, selectCartItems } from '../../redux/Cart/cart.selectors'
 import { clearCart } from '../../redux/Cart/cart.actions'
-import { createStructuredSelector } from 'reselect'
-import { useSelector, useDispatch } from 'react-redux';
+import { saveOrderHistory } from '../../redux/Orders/orders.actions'
 
+
+import './paymentdetails.scss'
 
 const initialAddressState = {
     line1: '',
@@ -23,7 +27,8 @@ const initialAddressState = {
 
 const mapState = createStructuredSelector({
     total: selectCartTotal,
-    itemCount: selectCartItemsCount
+    itemCount: selectCartItemsCount,
+    cartItems: selectCartItems
 })
 
 const PaymentDetails = () => {
@@ -31,7 +36,7 @@ const PaymentDetails = () => {
     const stripe = useStripe();
     const dispatch = useDispatch();
     const elements = useElements();
-    const { total, itemCount } = useSelector(mapState)
+    const { total, itemCount, cartItems } = useSelector(mapState)
 
     const [billingAddress, setBillingAddress] = useState({ ...initialAddressState });
     const [shippingAddress, setShippingAddress] = useState({ ...initialAddressState });
@@ -40,7 +45,7 @@ const PaymentDetails = () => {
 
     useEffect(() => {
         if (itemCount < 1) {
-            history.push('/')
+            history.push('/dashboard')
         }
     }, [itemCount])
 
@@ -94,8 +99,23 @@ const PaymentDetails = () => {
                     payment_method: paymentMethod.id
                 })
                     .then(({ paymentIntent }) => {
+
+                        const configOrder = {
+                            orderTotal: total,
+                            orderItems: cartItems.map(item => {
+                                const { documentId, productThumbnail, productName, productPrice, quantity } = item;
+                                return {
+                                    documentId,
+                                    productThumbnail,
+                                    productName,
+                                    productPrice,
+                                    quantity
+                                }
+                            })
+                        }
+
                         dispatch(
-                            clearCart()
+                            saveOrderHistory(configOrder)
                         )
                     })
             })
